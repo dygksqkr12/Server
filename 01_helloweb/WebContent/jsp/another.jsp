@@ -3,7 +3,7 @@
 <%@ include file="/jsp/header.jsp" %>
 
 		<h1>Content2</h1>
-		<a href="/web/jsp/inclide.jsp">include.jsp</a>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore cumque quia est placeat magnam rem ut reprehenderit! Aliquam provident pariatur iste quia repellat saepe consequatur laborum sint iusto facere quidem.</p>
-
+		<a href="/web/jsp/include.jsp">include.jsp</a>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dolorum accusantium dolorem assumenda quas eveniet nihil obcaecati repudiandae iste dolores doloremque voluptatem ea in temporibus fugit illo vitae nesciunt vero.</p>
+		
 <%@ include file="/jsp/footer.jsp" %>

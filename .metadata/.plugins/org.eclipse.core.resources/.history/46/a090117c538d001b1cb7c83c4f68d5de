@@ -1,0 +1,48 @@
+package member.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import member.model.service.MemberService;
+import member.model.vo.Member;
+
+/**
+ * Servlet implementation class MemberLogionServlet
+ * @WebServlet
+ * 서블릿 등록을 자동으로 처리함.
+ * 
+ * - urlPatterns:String[]
+ * - name:String
+ */
+//@WebServlet("/member/login")
+@WebServlet(urlPatterns = {"/member/login"})
+public class MemberLogionServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	MemberService memberService = new MemberService();
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//1. encoding처리
+		request.setCharacterEncoding("uft-8");
+		
+		//2. 사용자입력값처리
+		String memberId = request.getParameter("memberId");
+		String password = request.getParameter("password");
+		System.out.println("memberId@servlet = " + memberId);
+		System.out.println("password@servlet = " + password);
+		
+		//3. 업무로직 : memberId로 회원객체를 조
+//		Member member = memberService.selectOne(memberId);
+//		System.out.println("member@servlet = " +member);
+		
+		//4. 응답메세지
+	}
+
+}

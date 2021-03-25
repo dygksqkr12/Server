@@ -10,11 +10,6 @@
 <meta charset="UTF-8">
 <title>jsp</title>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
-<script>
-	$(function() {
-	$("h1").css("color", "deeppink");
-	});
-</script>
 </head>
 <body>
 	<header>

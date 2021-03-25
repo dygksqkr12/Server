@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 public class MenuOrderServlet extends HttpServlet {
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+	protected void doGet(
+			HttpServletRequest request, 
+			HttpServletResponse response) 
 			throws ServletException, IOException {
 		//1. 사용자 입력값 처리
 		String main_menu = request.getParameter("main_menu");
