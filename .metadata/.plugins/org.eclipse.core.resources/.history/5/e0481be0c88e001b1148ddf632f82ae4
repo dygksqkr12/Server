@@ -73,7 +73,7 @@
 				</td>
 			</tr>
 		</table>
-		<input type="submit" value="가입" onclick="location.href='<%= request.getContextPath() %>/mvc/member/memberEnroll';">
+		<input type="submit" value="가입" >
 		<input type="reset" value="취소">
 	</form>
 </section>
