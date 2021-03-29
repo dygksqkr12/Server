@@ -1,7 +1,6 @@
 package member.model.service;
 
-import static common.JDBCTemplate.close;
-import static common.JDBCTemplate.getConnection;
+import static common.JDBCTemplate.*;
 
 import java.sql.Connection;
 
@@ -11,19 +10,26 @@ import member.model.vo.Member;
 public class MemberService {
 
 	private MemberDao memberDao = new MemberDao();
-	
+
 	public static final String MEMBER_ROLE = "U";
 	public static final String ADMIN_ROLE = "A";
-
+	
 	public Member selectOne(String memberId) {
-		//1. Connection객체 생성
-				Connection conn = getConnection();
-				//2. dao에 Connection객체, memberId를 전달해서 Member객체를 리턴받음.
-				Member m = memberDao.selectOne(conn, memberId);
-				//3. Connection 자원반납
-				close(conn);
-				
-//				System.out.println("member@service="+m);
-				return m;
+		Connection conn = getConnection();
+		Member member = memberDao.selectOne(conn, memberId);
+		close(conn);
+		return member;
 	}
+	
+	public int insertMember(Member member) {
+		Connection conn = getConnection();
+		int result = memberDao.insertMember(conn, member);
+		if(result>0)
+			commit(conn);
+		else 
+			rollback(conn);
+		close(conn);
+		return result;
+	}
+
 }

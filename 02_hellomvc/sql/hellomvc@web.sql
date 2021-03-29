@@ -10,8 +10,6 @@ default tablespace users;
 grant connect, resource to web;
 
 
-
-
 --===============================================
 -- WEB계정
 --===============================================
@@ -57,7 +55,7 @@ commit;
 
 select * from member;
 
-
+--drop table member;
 
 
 

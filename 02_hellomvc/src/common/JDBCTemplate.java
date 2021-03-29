@@ -24,9 +24,9 @@ public class JDBCTemplate {
 	static {
 		//data-source.properties의 내용을 읽어서 변수에 대입
 		Properties prop = new Properties();
-		String fileName = JDBCTemplate.class // 클래스 객체
-											.getResource("/data-source.properties") //Url객체
-											.getPath(); //String객체 : 절대경로
+		String fileName = JDBCTemplate.class	// 클래스 객체
+									  .getResource("/data-source.properties") // Url객체
+									  .getPath(); //String객체 : 절대경로
 		System.out.println("fileName@JDBCTemplate = " + fileName);
 		try {
 			prop.load(new FileReader(fileName));
