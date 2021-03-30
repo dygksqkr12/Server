@@ -12,9 +12,19 @@
 			<item value=""/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value="C:\Users\Yo Han Park\Dropbox\내 PC (YOHAN)\Downloads\02_hellomvc.zip"/>
 			<item value="D:\KH_JAVA\kh_teacher\server\숙제\답안\02_hellomvc.zip"/>
 			<item value="D:\Workspaces\zzz.zip"/>
 			<item value="D:\KH_JAVA\kh_teacher\server\server_teach\01_helloweb2.zip"/>
+		</list>
+	</section>
+	<section name="SmartImportWizard">
+		<item key="SmartImportRootWizardPage.STORE_HIDE_ALREADY_OPEN" value="false"/>
+		<item key="SmartImportRootWizardPage.STORE_CLOSE_IMPORTED" value="false"/>
+		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
+		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
+		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Workspaces\Server"/>
 		</list>
 	</section>
 </section>

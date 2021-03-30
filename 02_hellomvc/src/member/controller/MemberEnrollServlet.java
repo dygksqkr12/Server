@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import common.MvcUtils;
 import member.model.service.MemberService;
 import member.model.vo.Member;
 
@@ -37,12 +38,12 @@ public class MemberEnrollServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//1.전송값에 한글이 있을 경우 인코딩처리해야함.
 		//void javax.servlet.ServletRequest.setCharacterEncoding(String arg0) throws UnsupportedEncodingException
-		request.setCharacterEncoding("UTF-8");//대소문자 상관없음. 요청한 view단의 charset값과 동일해야 한다.
+//		request.setCharacterEncoding("UTF-8");//대소문자 상관없음. 요청한 view단의 charset값과 동일해야 한다.
 		
 		//2.전송값 꺼내서 변수에 기록하기.
 		//String javax.servlet.ServletRequest.getParameter(String arg0)
 		String memberId = request.getParameter("memberId");
-		String password = request.getParameter("password");
+		String password = MvcUtils.getSha512(request.getParameter("password"));
 		String memberName = request.getParameter("memberName");
 		String _birthday = request.getParameter("birthday");
 		String gender = request.getParameter("gender");

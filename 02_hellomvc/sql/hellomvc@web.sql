@@ -55,7 +55,7 @@ commit;
 
 select * from member;
 
---drop table member;
+
 
 
 
