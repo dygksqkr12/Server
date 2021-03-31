@@ -12,6 +12,7 @@
 			<item value=""/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value="C:\Users\pyh52\Downloads\다운로드.zip"/>
 			<item value="C:\Users\Yo Han Park\Dropbox\내 PC (YOHAN)\Downloads\02_hellomvc.zip"/>
 			<item value="D:\KH_JAVA\kh_teacher\server\숙제\답안\02_hellomvc.zip"/>
 			<item value="D:\Workspaces\zzz.zip"/>
@@ -24,6 +25,7 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="D:\Workspaces\web_server_workspace"/>
 			<item value="C:\Workspaces\Server"/>
 		</list>
 	</section>

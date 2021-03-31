@@ -11,12 +11,12 @@ public class MvcUtils {
 	 * 단방향 암호화 알고리즘
 	 * - md5
 	 * - sha1 - 160byte
-	 * - sha256 -256byte
-	 * - sha512 -512byte
+	 * - sha256
+	 * - sha512
 	 * 
-	 * 1. MessageDigest : 단방향 암호화처리
+	 * 1. MessageDigest : 단방향암호화처리
 	 * 
-	 * 2. Bass64 인코딩 처리 : 암호화된 byte[](이진데이터)를 64개의 문자로 변환
+	 * 2. Base64 인코딩 처리 : 암호화된 byte[](이진데이터)를 64개의 문자로 변환
 	 * 
 	 * @param password
 	 * @return
@@ -39,7 +39,6 @@ public class MvcUtils {
 		}
 		md.update(bytes);
 		byte[] encryptedBytes = md.digest(); //암호화 처리
-		
 		System.out.println("암호화 처리후 : " + new String(encryptedBytes));
 		
 		//2. 문자 인코딩 처리

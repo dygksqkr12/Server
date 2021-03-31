@@ -19,8 +19,7 @@ import member.model.vo.Member;
 @WebServlet("/member/updatePassword")
 public class UpdatePasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	MemberService memberService = new MemberService();
+	private MemberService memberService = new MemberService();
 
 	/**
 	 * 비밀번호 변경페이지 제공
@@ -34,20 +33,39 @@ public class UpdatePasswordServlet extends HttpServlet {
 	 * 비밀번호 변경처리
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String location = request.getContextPath();
+		String msg = null;
+		int result = 0;
+		
 		//1. 사용자 입력값 처리 : 기존비밀번호/신규비밀번호 암호화처리 필수
-		String password = MvcUtils.getSha512(request.getParameter("password"));
-		String newpassword = MvcUtils.getSha512(request.getParameter("newpassword"));
-		String checkpassword = MvcUtils.getSha512(request.getParameter("checkpassword"));
+		String oldPassword = MvcUtils.getSha512(request.getParameter("password"));
+		String newPassword = MvcUtils.getSha512(request.getParameter("newPassword"));
 		
 		//2. 기존비밀번호 비교 : session의 loginMember객체 이용할 것
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession();
+		Member loginMember = (Member) session.getAttribute("loginMember");
+
+		if(oldPassword.equals(loginMember.getPassword())) {
+			
+			//3. 업무로직 : 기존비밀번호가 일치한 경우만 신규비밀번호로 업데이트한다.
+			loginMember.setPassword(newPassword);
+			result = memberService.updatePassword(loginMember);
+			msg = (result > 0) ? 
+					"비밀번호를 성공적으로 변경했습니다." : 
+						"비밀번호를 변경에 실패했습니다.";
+			location += "/member/memberView";
+		}
+		else {
+			msg = "비밀번호가 일치하지 않습니다.";				
+			location += "/member/updatePassword";
+		}
 		
-//		if(password != )
-		
-		//3. 업무로직 : 기존비밀번호가 일치한 경우만 신규비밀번호로 업데이트한다.
 		//4. 사용자경고창 및 리다이렉트 처리
 		//기존비밀번호가 일치하지 않았다면, "비밀번호가 일치하지 않습니다." 안내 & /mvc/member/updatePassword 리다이렉트
 		//기존비밀번호가 일치하고, 신규비밀번호 변경에 성공했다면, "비밀번호를 성공적으로 변경했습니다." 안내 & /mvc/member/memberView 리다이렉트 
+		session.setAttribute("msg", msg);
+		response.sendRedirect(location);
+		
 	
 	}
 
