@@ -102,6 +102,10 @@ div#search-gender{display: <%= "gender".equals(type) ? "inline-block" : "none" %
 		%>
 		</tbody>
 	</table>
+	
+	<div id="pageBar">
+		<%= request.getAttribute("pageBar") %>
+	</div>
 </section>
 <form 
 	action="<%= request.getContextPath() %>/admin/memberRoleUpdate" 

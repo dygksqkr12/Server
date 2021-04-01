@@ -226,6 +226,44 @@ public class MemberDao {
 		}
 		return list;
 	}
+	
+	public List<Member> selectList(Connection conn, int start, int end) {
+		List<Member> list = null;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = prop.getProperty("selectPagedList");
+		try {
+			// 미완성쿼리문을 가지고 객체생성.
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, end);
+			// 쿼리문실행
+			rset = pstmt.executeQuery();
+
+			list = new ArrayList<>();
+			while (rset.next()) {
+				Member member = new Member();
+				member.setMemberId(rset.getString("MEMBER_ID"));
+				member.setPassword(rset.getString("PASSWORD"));
+				member.setMemberName(rset.getString("MEMBER_NAME"));
+				member.setMemberRole(rset.getString("MEMBER_ROLE"));
+				member.setGender(rset.getString("GENDER"));
+				member.setBirthday(rset.getDate("BIRTHDAY"));
+				member.setEmail(rset.getString("EMAIL"));
+				member.setPhone(rset.getString("PHONE"));
+				member.setAddress(rset.getString("ADDRESS"));
+				member.setHobby(rset.getString("HOBBY"));
+				member.setEnrollDate(rset.getDate("ENROLL_DATE"));
+				list.add(member);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return list;
+	}
 
 	public int updateMemberRole(Connection conn, Member member) {
 		int result = 0;
@@ -257,19 +295,22 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 
-		String query = prop.getProperty("searchMember");
+		String query = prop.getProperty("searchPagedMember");
 		//select * from member where member_id like %a%
 		//select * from member where member_name like %동%
 		//select * from member where gender = 'M'
+		//select * from ( select row_number() over(order by enroll_date desc) rnum, M.* from member M where ### ) M where rnum between ? and ?
 		switch(param.get("searchType")) {
-		case "memberId" 	: query += " member_id like '%" + param.get("searchKeyword") + "%'"; break;
-		case "memberName" 	: query += " member_name like '%" + param.get("searchKeyword") + "%'"; break;
-		case "gender" 		: query += " gender = '" + param.get("searchKeyword") + "'"; break;
+		case "memberId" 	: query = query.replace("#", " member_id like '%" + param.get("searchKeyword") + "%'"); break;
+		case "memberName" 	: query = query.replace("#", " member_name like '%" + param.get("searchKeyword") + "%'"); break;
+		case "gender" 		: query = query.replace("#", " gender = '" + param.get("searchKeyword") + "'"); break;
 		}
 		System.out.println("query@dao = " + query);
 		try {
 			// 미완성쿼리문을 가지고 객체생성.
 			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, param.get("start"));
+			pstmt.setString(2, param.get("end"));
 			// 쿼리문실행
 			rset = pstmt.executeQuery();
 
@@ -298,5 +339,64 @@ public class MemberDao {
 		}
 		return list;
 	}
+
+	public int selectMemberCount(Connection conn) {
+		int totalContents = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String query = prop.getProperty("selectMemberCount");
+
+		try {
+			// 미완성쿼리문을 가지고 객체생성.
+			pstmt = conn.prepareStatement(query);
+			// 쿼리문실행
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				totalContents = rset.getInt("cnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return totalContents;
+	}
+
+	public int searchMemberCount(Connection conn, Map<String, String> param) {
+		int totalContents = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		String query = prop.getProperty("searchMemberCount");
+		//select count(*) cnt from member M where #
+		switch(param.get("searchType")) {
+		case "memberId" 	: query = query.replace("#", " member_id like '%" + param.get("searchKeyword") + "%'"); break;
+		case "memberName" 	: query = query.replace("#", " member_name like '%" + param.get("searchKeyword") + "%'"); break;
+		case "gender" 		: query = query.replace("#", " gender = '" + param.get("searchKeyword") + "'"); break;
+		}
+		System.out.println("query@dao = " + query);
+
+		try {
+			// 미완성쿼리문을 가지고 객체생성.
+			pstmt = conn.prepareStatement(query);
+			// 쿼리문실행
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				totalContents = rset.getInt("cnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return totalContents;
+	}
+
+	
 
 }
