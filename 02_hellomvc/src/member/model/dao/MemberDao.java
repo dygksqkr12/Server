@@ -300,11 +300,12 @@ public class MemberDao {
 		//select * from member where member_name like %동%
 		//select * from member where gender = 'M'
 		//select * from ( select row_number() over(order by enroll_date desc) rnum, M.* from member M where ### ) M where rnum between ? and ?
-		switch(param.get("searchType")) {
-		case "memberId" 	: query = query.replace("#", " member_id like '%" + param.get("searchKeyword") + "%'"); break;
-		case "memberName" 	: query = query.replace("#", " member_name like '%" + param.get("searchKeyword") + "%'"); break;
-		case "gender" 		: query = query.replace("#", " gender = '" + param.get("searchKeyword") + "'"); break;
-		}
+		query = setQuery(query, param.get("searchType"), param.get("searchKeyword"));
+//		switch(param.get("searchType")) {
+//		case "memberId" 	: query = query.replace("#", " member_id like '%" + param.get("searchKeyword") + "%'"); break;
+//		case "memberName" 	: query = query.replace("#", " member_name like '%" + param.get("searchKeyword") + "%'"); break;
+//		case "gender" 		: query = query.replace("#", " gender = '" + param.get("searchKeyword") + "'"); break;
+//		}
 		System.out.println("query@dao = " + query);
 		try {
 			// 미완성쿼리문을 가지고 객체생성.
@@ -372,11 +373,12 @@ public class MemberDao {
 
 		String query = prop.getProperty("searchMemberCount");
 		//select count(*) cnt from member M where #
-		switch(param.get("searchType")) {
-		case "memberId" 	: query = query.replace("#", " member_id like '%" + param.get("searchKeyword") + "%'"); break;
-		case "memberName" 	: query = query.replace("#", " member_name like '%" + param.get("searchKeyword") + "%'"); break;
-		case "gender" 		: query = query.replace("#", " gender = '" + param.get("searchKeyword") + "'"); break;
-		}
+		query = setQuery(query, param.get("searchType"), param.get("searchKeyword"));
+//		switch(param.get("searchType")) {
+//		case "memberId" 	: query = query.replace("#", " member_id like '%" + param.get("searchKeyword") + "%'"); break;
+//		case "memberName" 	: query = query.replace("#", " member_name like '%" + param.get("searchKeyword") + "%'"); break;
+//		case "gender" 		: query = query.replace("#", " gender = '" + param.get("searchKeyword") + "'"); break;
+//		}
 		System.out.println("query@dao = " + query);
 
 		try {
@@ -397,6 +399,15 @@ public class MemberDao {
 		return totalContents;
 	}
 
+	public String setQuery(String query, String searchType, String searchKeyword) {
+		switch(searchType) {
+		case "memberId" 	: query = query.replace("#", " member_id like '%" + searchKeyword + "%'"); break;
+		case "memberName" 	: query = query.replace("#", " member_name like '%" + searchKeyword + "%'"); break;
+		case "gender" 		: query = query.replace("#", " gender = '" + searchKeyword + "'"); break;
+		}
+		
+		return query;
+	}
 	
 
 }
