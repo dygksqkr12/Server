@@ -28,10 +28,9 @@ public class MvcFileRenamePolicy implements FileRenamePolicy {
 			int dot = oldName.lastIndexOf(".");
 			if(dot > -1) ext = oldName.substring(dot); // .jpg
 			
-			String  newName = sdf.format(new Date()) 
-							+ df.format(Math.random() * 999)
-							+ ext;
-			
+			String newName = sdf.format(new Date()) 
+						   + df.format(Math.random() * 999)
+						   + ext;
 			//파일객체로 변환
 			newFile = new File(f.getParent(), newName);
 			
@@ -39,8 +38,9 @@ public class MvcFileRenamePolicy implements FileRenamePolicy {
 		
 		return newFile;
 	}
-	
+
 	/**
+	 * f.createNewFile();
 	 * f가 실재 존재하지 않으면, 파일생성후 true 리턴
 	 * f가 이미 존재하면, 파일을 생성하지 않고, IOException을 던짐.
 	 * 
@@ -48,12 +48,11 @@ public class MvcFileRenamePolicy implements FileRenamePolicy {
 	 * @return
 	 */
 	private boolean createNewFile(File f) {
-	    try {
-	      return f.createNewFile();
-	    }
-	    catch (IOException ignored) {
-	      return false;
-	    }
-	  }
+		try {
+			return f.createNewFile();
+		} catch (IOException ignored) {
+			return false;
+		}
+	}
 
 }
