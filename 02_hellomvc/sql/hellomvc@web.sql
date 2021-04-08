@@ -124,7 +124,7 @@ comment on column attachment.original_filename is '업로드한 첨부파일명'
 comment on column attachment.renamed_filename is '서버에 저장된 첨부파일명';
 comment on column attachment.status is '사용여부';
 
-
+select * from attachment;
 --첨부파일 시퀀스생성
 create sequence seq_attachment_no;
 	

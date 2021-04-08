@@ -12,6 +12,8 @@ import java.util.Properties;
 import board.model.exception.BoardException;
 import board.model.vo.Attachment;
 import board.model.vo.Board;
+import board.model.vo.BoardComment;
+
 import static common.JDBCTemplate.*;
 
 public class BoardDao {
@@ -223,7 +225,7 @@ public class BoardDao {
 	public int deleteBoard(Connection conn, int no) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String sql = prop.getProperty("deleteBoard");
+		String sql = prop.getProperty("deletBoard");
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, no);
@@ -252,6 +254,91 @@ public class BoardDao {
 			close(pstmt);
 		}
 		
+		return result;
+	}
+
+	public int deleteAttachment(Connection conn, String attachNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("deleteAttachment");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, attachNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new BoardException("첨부파일 삭제 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int insertBoardComment(Connection conn, BoardComment bc) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("insertBoardComment");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bc.getCommentLevel());
+			pstmt.setString(2, bc.getWriter());
+			pstmt.setString(3, bc.getContent());
+			pstmt.setInt(4, bc.getBoardNo());
+//			pstmt.setInt(5, bc.getCommentRef() == 0 ? null : bc.getCommentRef());
+			pstmt.setObject(5, bc.getCommentRef() == 0 ? null : bc.getCommentRef());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new BoardException("댓글 등록 오류", e);
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public List<BoardComment> selectBoardCommentList(Connection conn, int no) {
+		List<BoardComment> commentList = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("selectBoardCommentList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				BoardComment bc = new BoardComment();
+				bc.setNo(rset.getInt("no"));
+				bc.setCommentLevel(rset.getInt("comment_level"));
+				bc.setWriter(rset.getString("writer"));
+				bc.setContent(rset.getString("content"));
+				bc.setBoardNo(rset.getInt("board_no"));
+				bc.setCommentRef(rset.getInt("comment_ref"));
+				bc.setRegDate(rset.getDate("reg_date"));
+				commentList.add(bc);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return commentList;
+	}
+
+	public int deleteBoardComment(Connection conn, int boardNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String sql = prop.getProperty("deleteBoardComment");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new BoardException("댓글 삭제 오류", e);
+		} finally {
+			close(pstmt);
+		}
 		return result;
 	}
 

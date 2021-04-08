@@ -26,10 +26,10 @@ public class BoardDeleteServlet extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			// 1.사용자 입력값
-			int no = Integer.parseInt(request.getParameter("no"));
+			int boardNo = Integer.parseInt(request.getParameter("boardNo"));
 
 			// 2.업무로직
-			int result = boardService.deleteBoard(no);
+			int result = boardService.deleteBoard(boardNo);
 			String msg = result > 0 ? "게시글 삭제 성공!" : "게시글 삭제 실패!";
 
 			// 3.리다이렉트 & 사용자피드백
