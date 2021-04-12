@@ -159,13 +159,13 @@ public class BoardService {
 		return commentList;
 	}
 
-	public int deleteBoardComment(int boardNo) {
+	public int deleteBoardComment(int no) {
 		Connection conn = getConnection();
 		int result = 0;
 		try {
-			result = boardDao.deleteBoardComment(conn, boardNo);
+			result = boardDao.deleteBoardComment(conn, no);
 			if(result == 0)
-				throw new IllegalArgumentException("해당 댓글이 존재하지 않습니다. : " + boardNo );
+				throw new IllegalArgumentException("해당 댓글이 존재하지 않습니다. : " + no);
 			commit(conn);
 		} catch(Exception e) {
 			rollback(conn);
@@ -176,5 +176,4 @@ public class BoardService {
 		return result;
 	}
 
-	
 }

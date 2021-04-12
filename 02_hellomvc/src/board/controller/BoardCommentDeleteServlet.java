@@ -22,25 +22,31 @@ public class BoardCommentDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			// 1.사용자 입력값
+			//1. 파라미터값 가져오기
 			int no = Integer.parseInt(request.getParameter("no"));
-
-			// 2.업무로직
+			int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+	
+			//2. 비지니스로직 호출
 			int result = boardService.deleteBoardComment(no);
-			String msg = result > 0 ? "댓글 삭제 성공!" : "댓글 삭제 실패!";
-
-			// 3.리다이렉트 & 사용자피드백
-			request.getSession().setAttribute("msg", msg);
-			response.sendRedirect(request.getContextPath() + "/board/boardView");
-		} catch (Exception e) {
-			// 예외 로깅
+			
+			//3. 사용자피드백 & 리다이렉트
+			request.getSession().setAttribute("msg", "댓글 삭제 성공!");
+			response.sendRedirect(request.getContextPath() + "/board/boardView?no=" + boardNo);
+		
+		} catch(Exception e) {
 			e.printStackTrace();
-			// 예외페이지 전환을 위해서 was에 예외던짐.
 			throw e;
 		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
 
 	}
 }

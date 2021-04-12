@@ -326,13 +326,14 @@ public class BoardDao {
 		return commentList;
 	}
 
-	public int deleteBoardComment(Connection conn, int boardNo) {
+	public int deleteBoardComment(Connection conn, int no) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String sql = prop.getProperty("deleteBoardComment");
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, boardNo);
+			pstmt.setInt(1, no);
+//			pstmt.setInt(2, boardNo);
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new BoardException("댓글 삭제 오류", e);
