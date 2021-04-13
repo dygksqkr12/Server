@@ -1,4 +1,4 @@
-package com.kh.ajax.html;
+package com.kh.ajax.text;
 
 import java.io.IOException;
 import java.io.PrintWriter;
