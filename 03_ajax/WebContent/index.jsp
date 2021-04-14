@@ -7,7 +7,7 @@
 <title>Ajax</title>
 </head>
 <body>
-	<h1>Hello Ajax</h1>
+	<h1>Hello Ajaxa</h1>
 	
 	<h2>text</h2>
 	<ul>
