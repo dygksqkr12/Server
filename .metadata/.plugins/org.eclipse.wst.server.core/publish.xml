@@ -4,4 +4,6 @@
   <server id="actiontag-el-server" path="publish7.dat"/>
   <server id="hellomvc-server" path="publish5.dat"/>
   <server id="ajax-server" path="publish6.dat"/>
+  <server id="hellogit-server" path="publish8.dat"/>
+  <server id="maven-mybatis-server" path="publish9.dat"/>
 </publish-info>
