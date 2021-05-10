@@ -19,6 +19,12 @@ table.tbl-student th{text-align:right;}
 table.tbl-student td{text-align:left;}
 table.tbl-student tr:last-of-type td:first-child{text-align:center;}
 </style>
+<c:if test="${not empty msg}">
+<script>
+alert("${msg}");
+<c:remove var="msg" scope="session"/>
+</script>
+</c:if>
 </head>
 <body>
 	<div id="student-container">
@@ -79,11 +85,21 @@ table.tbl-student tr:last-of-type td:first-child{text-align:center;}
 				</tr>
 			</table>
 		</form>
+		<form method="POST" name="studentDelFrm" action="${pageContext.request.contextPath}/student/deleteStudent.do">
+			<input type="hidden" name="no" value="${param.no}" />			
+		</form>
+		<script>
+		var deleteStudent = () => {
+			if(confirm("정말 삭제하시겠습니까?")){
+				$(document.studentDelFrm).submit();
+			}
+		};
+		</script>
 		</c:if>
 		
 		<hr />
 		
-		<h1>학생 정보 조회(Map)</h1>
+		<h2>학생 정보 조회(Map)</h2>
 		<form name="ajaxStudentSearchFrm">
 			<table class="tbl-student">
 				<tr>
@@ -101,7 +117,7 @@ table.tbl-student tr:last-of-type td:first-child{text-align:center;}
 		</form>
 		<script>
 		$(document.ajaxStudentSearchFrm).submit((e) => {
-			e.preventDefault(); //폼제출방지
+			e.preventDefault(); // 폼제출방지
 			//화살표함수 안에서는 this가 event.target객체가 아니다.
 			var no = $("[name=no]", e.target).val();
 			console.log(no);
@@ -121,14 +137,15 @@ table.tbl-student tr:last-of-type td:first-child{text-align:center;}
 							.append("<tr><th>등록일</th><td>" + data.regDate + "</td></tr>")
 							.insertAfter($(e.target));
 					}
-					else{
+					else {
 						alert("조회한 학생은 존재하지 않습니다.");
 					}
+					
 				},
 				error: (xhr, statusText, err) => {
 					console.log(xhr, statusText, err);
 				}
-			});	
+			});
 		});
 		</script>
 		
