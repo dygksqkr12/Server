@@ -138,4 +138,70 @@
 		from 
 			dept
 	</select>
+<!-- 	<select id="selectOneEmp" resultType="map">
+		select
+			*
+		from(
+			select
+				e.*,
+				decode(substr(emp_no, 8, 1), '1', '남', '3', '남', '여') gender,
+				d.dept_title,
+				j.job_name
+			from
+				emp e
+				  left join dept d
+				  	on e.dept_code = d.dept_id
+				  left join job j
+				  	on e.job_code = j.job_code
+			) e
+		where emp_id=#{empId}
+	</select> -->
+	<select id="selectOneEmp" resultType="map">
+		select
+			e.*,
+			(select dept_title from dept where dept_id = e.dept_code) dept_title,
+			(select job_name from job where job_code = e.job_code) job_name
+		from 
+			emp e
+		where 
+			emp_id = #{empId}
+	
+	</select>
+	<!-- <update id="update">
+		update
+			emp
+		<set>
+			<if test="jobCode != null">job_code = #{jobCode},</if>
+			<if test="deptCode != null">dept_code = #{deptCode}</if>
+		</set>
+		where emp_id = #{empId}
+	</update> -->
+<!-- 		<update id="updateEmp">
+		update
+			emp
+		<set>
+			<if test="jobCode != null and jobCode != ''">
+			job_code = #{jobCode},
+			</if>
+			<if test="detpCode != null and deptCode != ''">
+			dept_code = #{deptCode}
+			</if>
+		</set>
+		where
+			emp_id = #{empId}
+	</update> -->
+		<update id="updateEmp">
+		update
+			emp
+		<trim prefix="set" suffixOverrides=",">
+			<if test="jobCode != null and jobCode != ''">
+			job_code = #{jobCode},
+			</if>
+			<if test="deptCode != null and deptCode != ''">
+			dept_code = #{deptCode}
+			</if>
+		</trim>
+		where
+			emp_id = #{empId}
+	</update>
 </mapper>
